@@ -1,0 +1,5 @@
+### Batch template
+# BatchFiles
+*.cmd
+*.btm
+*.vbs
