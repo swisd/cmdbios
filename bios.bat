@@ -1,9 +1,33 @@
+@shift
 @echo off
+::if "%1" == "fullscreen" (
+::  batbox.exe /f 0
+::  if "%2" == "defaultcolor" (
+::    set background=[44m
+::  )
+::
+::)
+batbox.exe /f 0
+if "%1" == "defaultcolor" (
+  set background=[44m
+)
 
-title CMDBIOS
+::mode 150,40
 ::Default color for display is 1f, 79, 9f, 0b, 0a, or 17
-color 17
+set background=[96m
 
+echo %background%
+title CMDBIOS
+
+
+
+::if exist %cd%/hash/hash256sha.bat (
+::   for /f "tokens=1 delims=" %%a in ('%cd%/hash/hash256sha.bat %cd%/bios.bat') do set hash=%%a
+::)
+::chcp 65001
+
+set hash=
+::for /f "tokens=*" %%a in ('powershell -command "Get-FileHash -Path '%cd%/bios.bat' -Algorithm SHA256 | Select-Object -ExpandProperty Hash"') do set "hash=%%a"
 set "doublespace=  "
 set "pointerspace=- "
 set cItem=item1
@@ -43,10 +67,13 @@ set restorePL=Last-State
 set sysbioscache=Enabled
 set vidbioscache=Enabled
 set iBackground=off
-set pageback=[44m
+set clear=[0m
+set inverse=[7m
+set hash=2B3FB78BBDDB5E2AA8043231A2278BC7E279F33AF7D61635C31989FC21CE338D
+set pageback=%background%
 
 if /I "%iBackground%" EQU "on" (
-   set pageback=[7m
+   set pageback=%inverse%
 )
 
 set "c1r=["
@@ -108,8 +135,8 @@ goto determinetab
 
 :tabupdate
 if "%tab%"=="1" (
-  set "c1r=[[7m"
-  set "c1l=[0m[44m]"
+  set "c1r=[%inverse%"
+  set "c1l=%clear%%background%]"
   set "c2r= "
   set "c2l= "
   set "c3r= "
@@ -126,8 +153,8 @@ if "%tab%"=="1" (
 if "%tab%"=="2" (
   set "c1r= "
   set "c1l= "
-  set "c2r=[[7m"
-  set "c2l=[0m[44m]"
+  set "c2r=[%inverse%"
+  set "c2l=%clear%%background%]"
   set "c3r= "
   set "c3l= "
   set "c4r= "
@@ -144,8 +171,8 @@ if "%tab%"=="3" (
   set "c1l= "
   set "c2r= "
   set "c2l= "
-  set "c3r=[[7m"
-  set "c3l=[0m[44m]"
+  set "c3r=[%inverse%"
+  set "c3l=%clear%%background%]"
   set "c4r= "
   set "c4l= "
   set "c5r= "
@@ -162,8 +189,8 @@ if "%tab%"=="4" (
   set "c2l= "
   set "c3r= "
   set "c3l= "
-  set "c4r=[[7m"
-  set "c4l=[0m[44m]"
+  set "c4r=[%inverse%"
+  set "c4l=%clear%%background%]"
   set "c5r= "
   set "c5l= "
   set "c6r= "
@@ -180,8 +207,8 @@ if "%tab%"=="5" (
   set "c3l= "
   set "c4r= "
   set "c4l= "
-  set "c5r=[[7m"
-  set "c5l=[0m[44m]"
+  set "c5r=[%inverse%"
+  set "c5l=%clear%%background%]"
   set "c6r= "
   set "c6l= "
   set "c7r= "
@@ -198,8 +225,8 @@ if "%tab%"=="6" (
   set "c4l= "
   set "c5r= "
   set "c5l= "
-  set "c6r=[[7m"
-  set "c6l=[0m[44m]"
+  set "c6r=[%inverse%"
+  set "c6l=%clear%%background%]"
   set "c7r= "
   set "c7l= "
 )
@@ -216,8 +243,8 @@ if "%tab%"=="7" (
   set "c5l= "
   set "c6r= "
   set "c6l= "
-  set "c7r=[[7m"
-  set "c7l=[0m[44m]"
+  set "c7r=[%inverse%"
+  set "c7l=%clear%%background%]"
 )
 if "%tab%"=="11" (
   set "c1r= "
@@ -228,8 +255,8 @@ if "%tab%"=="11" (
   set "c3l= "
   set "c4r= "
   set "c4l= "
-  set "c5r=[[7m"
-  set "c5l=[0m[44m]"
+  set "c5r=[%inverse%"
+  set "c5l=%clear%%background%]"
   set "c6r= "
   set "c6l= "
   set "c7r= "
@@ -244,8 +271,8 @@ if "%tab%"=="12" (
   set "c3l= "
   set "c4r= "
   set "c4l= "
-  set "c5r=[[7m"
-  set "c5l=[0m[44m]"
+  set "c5r=[%inverse%"
+  set "c5l=%clear%%background%]"
   set "c6r= "
   set "c6l= "
   set "c7r= "
@@ -260,8 +287,8 @@ if "%tab%"=="13" (
   set "c3l= "
   set "c4r= "
   set "c4l= "
-  set "c5r=[[7m"
-  set "c5l=[0m[44m]"
+  set "c5r=[%inverse%"
+  set "c5l=%clear%%background%]"
   set "c6r= "
   set "c6l= "
   set "c7r= "
@@ -281,7 +308,7 @@ goto menubar
 
 :menubar
 cls
-echo [0m[44m#  CMDBIOS %biosversion%    ⤷ select menu  +/- change value  ↑/↓ switch item  ←/→ switch tab  ⌫  go back
+echo %clear%%background%#  CMDBIOS %biosversion%    ⤷ select menu  +/- change value  ↑/↓ switch item  ←/→ switch tab  ⌫  go back
 echo   %c1r%Main%c1l%    %c2r%Advanced%c2l%    %c3r%Power%c3l%    %c4r%Boot%c4l%    %c5r%Hardware%c5l%    %c6r%Security%c6l%    %c7r%Exit%c7l%      %tab%   %cItem%
 if /I "%tab%" EQU "1" (
   goto mainmenu
@@ -335,7 +362,7 @@ SET _X=%%A
 :mainmenu
 echo %pageback%
 echo   BIOS Core Version              %biosversion%
-echo   BIOS ACI Key                   ******************f2
+echo   BIOS ACI Key                   %hash%
 echo.
 echo %item1%System Time                    [%time%]
 echo %item2%System Date                    [%date%]
@@ -392,9 +419,9 @@ echo %pageback%
 echo %item1%CPU Speed                       [%bclk% Mhz]
 echo %item2%CPU Boost Speed                 [%boostclk% Mhz]
 echo %item3%CPU: System Frequency Multiple  [%csfm% x]
-echo %item4%System/PCIe Frequency (Mhz)     [Auto]
-echo %item5%PCIe Frequency (Mhz)            [%pcifreq%]
-echo %item6%System /SDRAM Frequency Ratio   [Auto]
+echo %item4%Intel VT-x / AMD-V              [On]
+echo %item5%System/PCIe Frequency (Mhz)     [Auto]
+echo %item6%PCIe Frequency (Mhz)            [%pcifreq%]
 echo %item7%Load Performance Setting        [Normal]
 echo %item8%CPU Vcore                       [%cpuVcoreVoltage%V]
 echo %item9%PCH +1.0V                       [%pchVoltage%V]
@@ -433,37 +460,40 @@ echo %pageback%
 echo %item1%eMMC Support                    [%emmcOK%]
 echo %item2%eMMC Max Speed                  [%emmcSpeed%]
 echo.
-echo %item3%Onboard LAN1                    [%onlan1%]
-echo %item4%Onboard LAN2                    [%onlan2%]
-echo %item5%Wake on LAN1                    [%wlan1%]
-echo %item6%Wake on LAN2                    [%wlan2%]
+echo %item3%Onboard Audio                   [Enabled]
+echo %item4%Onboard LAN1                    [%onlan1%]
+echo %item5%Onboard LAN2                    [%onlan2%]
+echo %item6%Wake on LAN1                    [%wlan1%]
+echo %item7%Wake on LAN2                    [%wlan2%]
 echo.
-echo %item7%Restore on Power Loss           [%restorePL%]
+echo %item8%Restore on Power Loss           [%restorePL%]
 echo.
-echo %item8%System BIOS Cacheable           [%sysbioscache%]
-echo %item9%Video BIOS Cacheable            [%vidbioscache%]
+echo %item9%System BIOS Cacheable           [%sysbioscache%]
+echo %item10%Video BIOS Cacheable            [%vidbioscache%]
+echo.
+echo %item11%RAM Frequency                   [2666]
 goto updatemx
 
 
 :iodevconfig
 echo %pageback%
-echo None
+echo None.
 goto updatemx
 
 
 :pcieconfig
 echo %pageback%
-echo None
+echo None.
 goto updatemx
 
 :powerupcontrol
 echo %pageback%
-echo None
+echo None.
 goto updatemx
 
 :hardwaremonitor
 echo %pageback%
-echo None
+echo None.
 goto updatemx
 
 :determinetab

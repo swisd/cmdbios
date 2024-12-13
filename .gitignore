@@ -3,3 +3,4 @@
 *.cmd
 *.btm
 *.vbs
+/hash

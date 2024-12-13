@@ -1,0 +1,65 @@
+⛒⛞⛝⛛⛡☐☒⚿❏❐❑❒✜❖✚�🝧🝪🝠🝚🝙🝕🝔🜄
+
+1. CPU Configuration
+Core Control: Enable/Disable individual CPU cores.
+Hyper-Threading: Enable/Disable Intel Hyper-Threading Technology.
+CPU Frequency/Multiplier: Set CPU clock speed or multiplier settings.
+Turbo Mode: Enable/Disable Intel Turbo Boost or AMD Precision Boost.
+CPU Voltage: Adjust CPU core voltage settings.
+Thermal Throttling: Enable/Disable CPU thermal throttling.
+Intel VT-x / AMD-V: Enable/Disable hardware virtualization support.
+2. Memory Configuration
+Memory Frequency: Set the RAM speed or frequency.
+Memory Timings: Adjust RAM timings for performance tuning.
+Memory Voltage: Set memory voltage for overclocking or stability.
+XMP Profile: Enable/Disable Extreme Memory Profile (XMP) for automatic RAM overclocking.
+Memory Remapping: Enable/Disable memory remapping for large memory addresses.
+3. Storage Configuration
+SATA Mode: Configure SATA controller mode (IDE, AHCI, RAID).
+NVMe Configuration: Configure NVMe devices for storage.
+S.M.A.R.T. Monitoring: Enable/Disable S.M.A.R.T. (Self-Monitoring, Analysis, and Reporting Technology).
+Drive Boot Order: Set the boot order for hard drives, SSDs, and other storage devices.
+RAID Configuration: Configure RAID arrays for multiple storage devices.
+4. Peripheral Devices
+Onboard Audio: Enable/Disable integrated audio device.
+Onboard LAN: Enable/Disable integrated Ethernet controller.
+USB Configuration: Set the behavior of USB ports (legacy support, USB 3.0/3.1/USB4 speed settings).
+Onboard Bluetooth: Enable/Disable integrated Bluetooth.
+Onboard Wi-Fi: Enable/Disable integrated Wi-Fi.
+5. PCIe Configuration
+PCIe Lane Configuration: Configure lane settings for PCIe slots.
+PCIe Speed: Adjust the speed of PCIe slots (e.g., 2.0, 3.0, 4.0).
+PCIe ASPM: Enable/Disable Active State Power Management for PCIe devices.
+PCIe Slot Configuration: Configure settings for individual PCIe slots (e.g., bifurcation, mode selection).
+6. Fan and Cooling Configuration
+CPU Fan Control: Adjust fan speeds or set fan profiles for the CPU fan.
+Chassis Fan Control: Set fan speeds or profiles for chassis fans.
+Fan Fail Warning: Enable/Disable warning when a fan fails.
+Temperature Monitoring: View real-time temperatures for the CPU, system, and other components.
+Fan Speed Control: Set specific fan speed thresholds based on temperature.
+7. Power Management
+ACPI Settings: Configure Advanced Configuration and Power Interface (ACPI) settings for power management.
+Wake On LAN: Enable/Disable Wake On LAN functionality for remote power-on.
+ErP Ready: Enable/Disable Energy-related Products (ErP) compliance, which reduces power consumption in standby mode.
+Power Button Behavior: Set the behavior of the power button (e.g., press to power off or sleep mode).
+Suspend Mode: Set the suspend (sleep) mode of the system (S3, S4, etc.).
+8. Security Configuration
+TPM (Trusted Platform Module): Enable/Disable TPM for encryption and secure boot.
+Secure Boot: Enable/Disable Secure Boot to control the boot process for security.
+Password Management: Set supervisor/user passwords to secure BIOS settings.
+Intel SGX (Software Guard Extensions): Enable/Disable Intel SGX for enhanced software security.
+9. Integrated Devices
+Onboard Serial Port: Enable/Disable integrated serial (COM) ports.
+Onboard Parallel Port: Enable/Disable integrated parallel (LPT) port.
+Onboard VGA: Enable/Disable onboard video output.
+PS/2 Port Support: Enable/Disable legacy PS/2 keyboard and mouse support.
+IDE/SATA Controller: Enable/Disable legacy IDE or SATA controllers.
+10. System Monitoring
+Voltage Monitoring: Monitor voltage levels for various system components (CPU, RAM, GPU, etc.).
+Fan Speed Monitoring: Display real-time fan speeds.
+Temperature Thresholds: Set temperature thresholds for critical components (CPU, GPU, etc.).
+Error Logging: Enable/Disable event logging for hardware-related errors.
+11. Expansion Cards
+PCIe Slot Enable/Disable: Enable or disable specific PCIe slots for expansion cards.
+PCIe Lane Speed: Configure the speed of each PCIe lane (e.g., Gen 3, Gen 4).
+Audio and Video Card Priority: Select priority for dedicated audio or video cards when installed.

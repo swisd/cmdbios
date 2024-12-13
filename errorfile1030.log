@@ -1,0 +1,4 @@
+10:30:07.18 func: determinetab
+10:30:07.18 cd: C:\BAT\cmdos\system\core\bios
+10:30:07.18 batbox.exe /k
+10:30:07.18 dependency not found error [Error 9009]
