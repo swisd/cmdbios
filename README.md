@@ -4,6 +4,11 @@ A BIOS written in Batchscript
 ![release](https://img.shields.io/badge/release-none-blue)
 ![latest](https://img.shields.io/badge/latest-v3.24-blue)
 
+**CMDBIOS is based off of multiple different versions and differences of AMIBIOS, PhoenixBIOS, and AwardBIOS**
+
+> Note: CMDBIOS Only represents a BIOS interface with limited capabilities.
+> CMDBIOS DOES NOT CHANGE ANY DEVICE OR BIOS SETTINGS
+
 ## Screenshots
 ![Image](./doc/img/bios-1.png)
 
@@ -18,10 +23,10 @@ A BIOS written in Batchscript
 ### File/Folder Structure
 
 ```
-   bios
-     /batbox.exe
-     /bios.bat
-     /cinderblock-small-notext.bat
+bios
+  /batbox.exe
+  /bios.bat
+  /cinderblock-small-notext.bat
 ```
 
 ### CMD Window Requirements
@@ -34,4 +39,4 @@ If you are using Windows 11:
 4. Save settings
 
 
->blockquote
+>User and admin PW to be added in a later update
