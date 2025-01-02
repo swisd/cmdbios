@@ -1,0 +1,16 @@
+echo                        .:^^!?Y55Y?!~:.                 
+echo                 .:^^~!75GB#####BBBBBGGPY?~^^^^:.         
+echo         ..^^~7J5PGBGGP5YYYY5PGGGGGP55YYY5PPGB7         
+echo   :^^~!7?YGB######BBBBBGGGP5J???JY55PGGBBBBBB~         
+echo  ^^P5Y55JJJJY5PGBB#BBGP5YYYY55PGGGBBBBBBGGGGB:         
+echo  .55JPPYYYYYJJ??JYYYY55PGGGBGGGGGGGGGGGGGGGG.         
+echo  .Y5J5PYYYYYYPYJ5PGGGGGGGGGGGGBGGGGGGGGGGGGG          
+echo   JPY5GYYYYYYPYYGBGGGGGBGGGGGGGGGGGGGGGGGGBP          
+echo   ?PY5G5YYYYYPYYGGGGGGGGGGGGGGGGGGGGGGGGGGB5          
+echo   7PY5G5YYYYYPYYGGGGGGGGGGGGGGGGGGGGGGGGBBG?          
+echo   !P5YG5Y5YYY5YYPGGGGGGGGGGGGGGGGGGGGGG5?!:.          
+echo   ^^P5YGPYYYYY55YPBGGGGGGGGGGGGGGGGPY?~:..             
+echo   .?JYGPY55YYP5YPGGGGGGGGGGGGG5J7^^:..                 
+echo     .:~~~7?JY55YPGGGGGGGGPY?!^^...                     
+echo         ...:?55YPBGGG5J7^^:..                          
+echo             .:^^7YY7~:..                               

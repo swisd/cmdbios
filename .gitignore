@@ -5,3 +5,5 @@
 *.vbs
 /hash
 biosvars
+.idea
+doc/v2/ai.md

@@ -1,3 +1,4 @@
+ÿþ&cls
 @shift
 @echo off
 ::if "%1" == "fullscreen" (
@@ -7,7 +8,7 @@
 ::  )
 ::
 ::)
-batbox.exe /f 0
+::batbox.exe /f 0
 if "%1" == "defaultcolor" (
   set background=[44m
 )

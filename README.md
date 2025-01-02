@@ -4,6 +4,9 @@ A BIOS written in Batchscript
 [CMDBIOS]: https://github.com/swisd/cmdbios/
 ![release](https://img.shields.io/badge/release-none-red)
 ![latest](https://img.shields.io/badge/latest-v3.31-blue)
+![wincompat](https://img.shields.io/badge/windows-compatible-gr)
+![maccompat](https://img.shields.io/badge/mac-incompatible-red)
+![lincompat](https://img.shields.io/badge/linux-incompatible-red)
 
 **CMDBIOS is based off of multiple different versions and differences of AMIBIOS, PhoenixBIOS, and AwardBIOS**
 
@@ -97,12 +100,14 @@ A: CMDBIOS is designed for use with Windows operating systems, specifically thos
 **Q: How can I contribute to CMDBIOS?**  
 A: You can contribute by forking the repository on GitHub and submitting pull requests with any improvements or fixes you make.
 
+**Q: What should I do if CMDBIOS fails to run or crashes?**  
+A: If CMDBIOS fails to run, try checking the system logs for any error messages. Ensure that your system meets the minimum hardware and software requirements. You may also need to reinstall CMDBIOS or update it to the latest version to resolve any issues.
 
 ---
 
 ## License
 
-CMDBIOS is released under the [license_unavailable]()
+###### CMDBIOS is released under the [license](./LICENSE)
 
 ---
 

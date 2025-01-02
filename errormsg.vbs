@@ -1,1 +1,1 @@
-y=msgbox("10:30:04.57 dependency not found (Error 9009)                         cd: C:\BAT\cmdos\system\core\bios", 1+16, "Fatal Error") 
+y=msgbox("13:49:35.46 dependency not found (Error 9009)                         cd: C:\BAT\cmdbios\bios", 1+16, "Fatal Error") 

@@ -63,3 +63,295 @@ Error Logging: Enable/Disable event logging for hardware-related errors.
 PCIe Slot Enable/Disable: Enable or disable specific PCIe slots for expansion cards.
 PCIe Lane Speed: Configure the speed of each PCIe lane (e.g., Gen 3, Gen 4).
 Audio and Video Card Priority: Select priority for dedicated audio or video cards when installed.
+
+Power-Up Control Menu in BIOS
+Power-On By Keyboard
+
+Enabled/Disabled
+Allows the system to power up when a specific key or key combination is pressed on the keyboard.
+Power-On By Mouse
+
+Enabled/Disabled
+Allows the system to power up by moving or clicking the mouse.
+Wake on LAN (WOL)
+
+Enabled/Disabled
+Allows the system to power on when a network activity signal is received over the local area network.
+Wake on USB
+
+Enabled/Disabled
+Powers on the system when a USB device is plugged in or activated.
+AC Power Recovery
+
+Always Off/Last State/Always On
+Determines how the system behaves when AC power is restored after a power failure:
+Always Off: System stays off.
+Last State: System returns to the state it was in (on/off).
+Always On: System turns on automatically.
+Fast Boot
+
+Enabled/Disabled
+Skips certain startup diagnostics to speed up the boot process.
+Power Good Signal
+
+Enabled/Disabled
+Monitors the "power good" signal from the PSU to ensure the system only powers up when stable power is supplied.
+CPU Power Management
+
+Enabled/Disabled
+Allows the CPU to scale its performance to save power when idle (e.g., Intel SpeedStep or AMD Cool'n'Quiet).
+Intel SpeedStep (or AMD Cool'n'Quiet)
+
+Enabled/Disabled
+Dynamic voltage and frequency scaling for power optimization.
+CPU C-State Support
+
+Enabled/Disabled
+Manages different CPU power states for better power efficiency.
+S3 (Suspend to RAM) Power Management
+
+Enabled/Disabled
+Allows the system to enter a low-power sleep mode (S3) while keeping memory powered on.
+ERP (Energy-Related Products) Support
+
+Enabled/Disabled
+Ensures compliance with energy efficiency standards, helping to reduce power consumption in standby modes.
+USB Charging in Powered Off State
+
+Enabled/Disabled
+Allows USB ports to provide charging power when the system is powered off.
+Power Button Behavior
+
+Normal Shutdown / Immediate Power Off
+Configures the system’s behavior when the power button is pressed (normal shutdown vs. immediate power-off).
+Automatic System Power-on
+
+Enabled/Disabled
+Allows the system to automatically power on at a specific time or after a set period.
+POST Delay
+
+Enabled/Disabled
+Introduces a delay before the system begins the POST (Power On Self Test) process to allow connected peripherals to initialize.
+Onboard Device Power Control
+
+Enabled/Disabled
+Turns off onboard devices (e.g., Ethernet, Audio) to save power during boot or when not in use.
+Boot Performance Mode
+
+Normal/Optimal Performance
+Optimizes boot time by reducing unnecessary system checks or adjusting initialization settings.
+Fan Control (PWM Mode)
+
+Enabled/Disabled
+Allows the BIOS to control fan speed based on thermal readings, adjusting the system’s cooling performance for better power efficiency.
+S4 (Hibernate) Power Management
+
+Enabled/Disabled
+Allows the system to save the current session to disk and power down completely, enabling a faster startup after hibernation.
+
+
+Hardware Monitor Menu
+System Overview
+
+CPU Usage
+Memory Usage
+Disk Usage
+Network Activity
+CPU
+
+Temperature
+Load (Percentage)
+Frequency (Current/Max)
+Core Usage (per core)
+Power Consumption
+CPU Model & Information
+Memory (RAM)
+
+Total Memory
+Used Memory
+Free Memory
+Swap Space
+Memory Usage History (Graph)
+Memory Channels (Dual, Quad, etc.)
+Storage
+
+Disk Health (SMART Data)
+Total Space
+Used Space
+Free Space
+Disk Temperature
+Read/Write Speed (Real-time)
+File System Information (Type, Mount Point)
+Graphics (GPU)
+
+GPU Temperature
+GPU Load
+GPU Memory Usage
+GPU Clock Speed
+GPU Power Consumption
+GPU Fan Speed
+Power Supply
+
+Voltage (3.3V, 5V, 12V, etc.)
+Power Consumption
+Battery Status (Laptop)
+AC Adapter Status (if applicable)
+Power Events (On/Off)
+Fan Speeds
+
+Fan 1 Speed (RPM)
+Fan 2 Speed (RPM)
+CPU Cooler Speed
+Case Fan Speeds
+Fan Curve (Auto/Manual)
+Sensors
+
+Temperature Sensors (CPU, GPU, Motherboard)
+Voltage Sensors
+Fan Speed Sensors
+Battery Temperature (Laptop)
+Network
+
+Network Interface (Wi-Fi, Ethernet)
+Download/Upload Speed (Real-time)
+Latency
+Network Traffic (Packets Sent/Received)
+Signal Strength (for Wi-Fi)
+Operating System Info
+
+OS Version
+Kernel Version
+System Uptime
+Hostname
+System Architecture (32/64-bit)
+Logs & Alerts
+
+Hardware Event Log
+Temperature Alerts
+Fan Speed Alerts
+Power Supply Warnings
+System Error Logs
+Advanced Settings
+
+Overclocking (if applicable)
+Thermal Throttling Control
+Power Saving Settings
+Performance Profiles (Balanced, High Performance, etc.)
+Performance History
+
+Graphical Trends (CPU, RAM, Disk, GPU)
+Time Period Selector (Last Hour, Day, Week, Month)
+Notifications
+
+Enable/Disable Alerts
+Set Thresholds for Warnings (Temperature, Fan Speed, etc.)
+Show/Hide System Tray Notifications
+Settings
+
+Configure Monitoring Interval (Refresh Rate)
+Change Units (Celsius/Fahrenheit, MB/GB)
+Enable/Disable Background Monitoring
+Customizable Dashboard
+
+
+
+BIOS Hardware Monitor Menu
+System Health
+
+Overall System Status (Healthy or Warning/Error)
+System Fan Status
+CPU Temperature (Current/Maximum)
+Motherboard Temperature (Current/Maximum)
+GPU Temperature (if applicable)
+Chassis Temperature (if applicable)
+CPU Monitoring
+
+CPU Temperature (Real-time)
+CPU Fan Speed (RPM)
+CPU Voltage (Core Voltage)
+CPU Power Consumption (if available)
+CPU Package Temperature
+Core Temperatures (Per-core temperature, if supported)
+CPU Load (Percentage, if available)
+Fan Control
+
+Fan 1 Speed (RPM)
+Fan 2 Speed (RPM)
+CPU Fan Speed (RPM)
+Chassis Fan Speed (RPM)
+Fan Control Mode (Auto/Manual)
+Fan Profiles (Silent, Standard, Turbo, etc.)
+Fan Curve Configuration (Adjust RPM based on temperature)
+Voltage Monitoring
+
+CPU Voltage (Core, Vcore, and other voltage rails)
+3.3V Rail Voltage
+5V Rail Voltage
+12V Rail Voltage
+Standby Voltage (5VSB)
+Battery Voltage (if applicable, for laptops or motherboards with integrated RTC battery)
+Temperature Monitoring
+
+CPU Temperature (Current/Maximum)
+GPU Temperature (if applicable)
+Motherboard Temperature (Various sensor readings on the motherboard)
+Chipset Temperature (For motherboards with chipset sensors)
+Ambient Temperature (Room temperature or chassis)
+Critical Temperature Thresholds (Set warning limits for each component)
+Storage (Disk) Monitoring
+
+SATA Disk Temperature (HDD/SSD)
+SMART Status (for HDD/SSD health)
+Drive Health (Current Status, including any potential issues detected)
+Drive Speed (Read/Write speeds for SSDs, if supported)
+RAID Monitoring (If using RAID, show status and health of RAID arrays)
+Power Supply Monitoring
+
+Input Power (AC Voltage) (For systems with external power meters)
+Power Supply Voltage (12V, 5V, 3.3V rails)
+Power Consumption (Total power draw, if supported)
+Efficiency Reporting (If supported by power supply)
+GPU Monitoring (if applicable)
+
+GPU Temperature
+GPU Fan Speed (RPM)
+GPU Core Clock Speed
+GPU Memory Usage
+GPU Load (Percentage)
+GPU Power Usage
+GPU Voltage
+Alert Settings
+
+Temperature Warning Thresholds (Set high-temperature limits for CPU, GPU, motherboard)
+Fan Failure Warning (Alert when fan speeds drop below certain RPM thresholds)
+Voltage Alerts (Set warning thresholds for critical voltage drops)
+System Health Alerts (Set notification for hardware failures, overheating, or power issues)
+System Performance
+
+Real-Time CPU Load (Percentage)
+Memory Usage (Total and available memory, if supported by BIOS)
+Current Power Consumption (Power draw in watts)
+Energy Saving Mode (Enable or configure low-power states for hardware)
+Performance Monitoring History
+
+Temperature Trends (Graphs for CPU, GPU, and motherboard temperatures over time)
+Fan Speed History (Track RPM changes over time)
+Voltage History (Track voltage stability over time)
+CPU Load History (Track CPU utilization over time)
+Hardware Monitoring Configuration
+
+Enable/Disable Monitoring for Components (Allow or disable monitoring for CPU, GPU, and other hardware components)
+Set Fan Speed Profiles (Auto, Performance, Silent, etc.)
+Adjust Fan Speed Curve (Customize RPM based on specific temperature thresholds)
+Adjust Temperature Thresholds (Set critical and warning thresholds for temperature)
+Enable/Disable Temperature Logging (Enable or disable logging of temperature trends)
+System Event Log
+
+View Hardware Monitoring Logs (View historical logs for temperature, fan speed, and voltage)
+Critical Events (Show any alerts for over-temperature or fan failures)
+Log Clearing (Option to clear the hardware logs)
+Exit Hardware Monitor
+
+Save and Exit
+Discard Changes and Exit
+Return to Main Menu

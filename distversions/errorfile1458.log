@@ -1,0 +1,4 @@
+14:58:37.62 func: determinetab
+14:58:37.62 cd: C:\BAT\cmdbios\bios\distversions
+14:58:37.62 batbox.exe /k
+14:58:37.62 dependency not found error [Error 9009]
