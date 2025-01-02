@@ -107,7 +107,7 @@ A: If CMDBIOS fails to run, try checking the system logs for any error messages.
 
 ## License
 
-###### Read the CMDBIOS [EULA](./LICENSE)
+###### Read the CMDBIOS [EULA](./LICENSE.md)
 
 ---
 
