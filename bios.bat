@@ -8,6 +8,7 @@
 ::
 ::)
 batbox.exe /f 0
+set currentScreenMode=F
 if "%1" == "defaultcolor" (
   set background=[44m
 )
@@ -92,9 +93,8 @@ set fan_mode_3=Performance
 set fan_mode_4=Full Speed
 
 
-if /I "%iBackground%" EQU "on" (
-   set pageback=%inverse%
-)
+
+
 
 set "c1r=["
 set "c1l=]"
@@ -154,6 +154,14 @@ title CMDBIOS T[%tab%] %cItem%
 goto determinetab
 
 :tabupdate
+
+if /I "%iBackground%" EQU "on" (
+   set pageback=%inverse%
+)
+if /I "%iBackground%" EQU "off" (
+   set pageback=%background%
+)
+
 if "%tab%"=="1" (
   set "c1r=[%inverse%"
   set "c1l=%clear%%background%]"
@@ -909,6 +917,30 @@ if /I "%errorlevel%" EQU "" (
 if /I "%errorlevel%" EQU "9009" (
   goto dependencyerror
 )
+
+if /I "%errorlevel%" EQU "126" (
+    if "%currentScreenMode%" EQU "F" (
+        batbox.exe /f 1
+        set currentScreenMode=W
+        goto tabupdate
+    )
+    if "%currentScreenMode%" EQU "W" (
+        batbox.exe /f 0
+        set currentScreenMode=F
+        goto tabupdate
+    )
+)
+if /I "%errorlevel%" EQU "105" (
+    if "%iBackground%" EQU "off" (
+        set iBackground=on
+        goto tabupdate
+    )
+    if "%iBackground%" EQU "on" (
+        set iBackground=off
+        goto tabupdate
+    )
+)
+
 
 echo %cItem%
 goto tabupdate

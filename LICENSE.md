@@ -2,7 +2,7 @@
 
 This End-User License Agreement (EULA) is a legal agreement between you (either as an individual or on behalf of an entity) and [swisd] regarding your use of [cmdbios], and associated documentation (the "Software"). IF YOU DO NOT AGREE TO ALL OF THE TERMS OF THIS EULA, DO NOT INSTALL, USE OR COPY THE SOFTWARE.
 
-> BY DOWNLOADING [cmdbios], YOU AGREE TO THIS EULA
+> BY DOWNLOADING AND/OR USING [cmdbios], YOU AGREE TO THIS EULA
 
 ### Summary
 
