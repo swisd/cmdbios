@@ -92,9 +92,21 @@ set fan_mode_2=Normal
 set fan_mode_3=Performance
 set fan_mode_4=Full Speed
 
+set fan_c_mode_1=PWM
+set fan_c_mode_2=DC
 
+set CPUFAN1=%fan_mode_3%
+set CPUFAN1MODE=%fan_c_mode_1%
+set CHAFAN1=%fan_mode_3%
+set CHAFAN1MODE=%fan_c_mode_1%
+set CHAFAN2=%fan_mode_3%
+set CHAFAN2MODE=%fan_c_mode_1%
+set CHAFAN3=%fan_mode_3%
+set CHAFAN3MODE=%fan_c_mode_1%
+set CHAFAN4=%fan_mode_3%
+set CHAFAN4MODE=%fan_c_mode_1%
 
-
+set fanFailWarning=Enabled
 
 set "c1r=["
 set "c1l=]"
@@ -581,18 +593,18 @@ goto updatemx
 :fanmenu
 echo %pageback%
 echo   Fan Control
-echo     %item1%CPU FAN 1/WP 1              [%fan_mode_3%]
-echo     %item2%CPU FAN 1/WP 1 MODE         [PWM]
-echo     %item3%CHA FAN 1                   [%fan_mode_3%]
-echo     %item4%CHA FAN 1 MODE              [PWM]
-echo     %item5%CHA FAN 2                   [%fan_mode_3%]
-echo     %item6%CHA FAN 2 MODE              [PWM]
-echo     %item7%CHA FAN 3                   [%fan_mode_3%]
-echo     %item8%CHA FAN 3 MODE              [PWM]
-echo     %item9%CHA FAN 4                   [%fan_mode_3%]
-echo     %item10%CHA FAN 4 MODE              [PWM]
+echo     %item1%CPU FAN 1/WP 1              [%CPUFAN1%]
+echo     %item2%CPU FAN 1/WP 1 MODE         [%CPUFAN1MODE%]
+echo     %item3%CHA FAN 1                   [%CHAFAN1%]
+echo     %item4%CHA FAN 1 MODE              [%CHAFAN1MODE%]
+echo     %item5%CHA FAN 2                   [%CHAFAN2%]
+echo     %item6%CHA FAN 2 MODE              [%CHAFAN2MODE%]
+echo     %item7%CHA FAN 3                   [%CHAFAN3%]
+echo     %item8%CHA FAN 3 MODE              [%CHAFAN3MODE%]
+echo     %item9%CHA FAN 4                   [%CHAFAN4%]
+echo     %item10%CHA FAN 4 MODE              [%CHAFAN4MODE%]
 echo.
-echo %item11%Fan Fail Warning                [Enabled]
+echo %item11%Fan Fail Warning                [%fanFailWarning%]
 
 goto updatemx
 
