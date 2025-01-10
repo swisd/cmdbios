@@ -56,6 +56,8 @@ set biospath=%cd%\
 set language=English
 set cpuVcoreVoltage=1.45
 set cpuL1Enb=Enabled
+set cpuL1Enb_1=Enabled
+set cpuL1Enb_2=Disabled
 set cpuL2Enb=Enabled
 set cpuL2ECCEnb=Disabled
 set cpuL3Enb=Enabled
@@ -69,7 +71,11 @@ set pchVoltage=1.0
 set tpm2in=Enabled
 set secBoot=Enabled
 set isSuperPass=Disabled
+set isSuperPass_1=Disabled
+set isSuperPass_2=Enabled
 set isUserPass=Disabled
+set isUserPass_1=Disabled
+set isUserPass_2=Enabled
 set acpif=Enabled
 set acpisust=S1
 set powman=User-Define
@@ -952,12 +958,243 @@ if /I "%errorlevel%" EQU "105" (
         goto tabupdate
     )
 )
-
+if /I "%errorlevel%" EQU "43" (
+:: +
+    goto valuechange
+)
+if /I "%errorlevel%" EQU "45" (
+:: -
+    goto valuechange
+)
 
 echo %cItem%
 goto tabupdate
 
+:valuechange
+if /I "%tab%" EQU "8" (
+    if /I "%cItem%" EQU "item1" (
+        if /I "%errorlevel%" EQU "43" (
+            if /I "%CPUFAN1%" EQU "%fan_mode_1%" (
+                set CPUFAN1=%fan_mode_2%
+                goto tabupdate
+            )
+            if /I "%CPUFAN1%" EQU "%fan_mode_2%" (
+                set CPUFAN1=%fan_mode_3%
+                goto tabupdate
+            )
+            if /I "%CPUFAN1%" EQU "%fan_mode_3%" (
+                set CPUFAN1=%fan_mode_4%
+                goto tabupdate
+            )
+        )
+        if /I "%errorlevel%" EQU "45" (
+            if /I "%CPUFAN1%" EQU "%fan_mode_2%" (
+                set CPUFAN1=%fan_mode_1%
+                goto tabupdate
+            )
+            if /I "%CPUFAN1%" EQU "%fan_mode_3%" (
+                set CPUFAN1=%fan_mode_2%
+                goto tabupdate
+            )
+            if /I "%CPUFAN1%" EQU "%fan_mode_4%" (
+                set CPUFAN1=%fan_mode_3%
+                goto tabupdate
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item2" (
+        if /I "%errorlevel%" EQU "43" (
+            if /I "%CPUFAN1MODE%" EQU "%fan_c_mode_1%" (
+                set CPUFAN1MODE=%fan_c_mode_2%
+                goto tabupdate
+            )
+        )
+        if /I "%errorlevel%" EQU "45" (
+            if /I "%CPUFAN1MODE%" EQU "%fan_c_mode_2%" (
+                set CPUFAN1MODE=%fan_c_mode_1%
+                goto tabupdate
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item3" (
+        if /I "%errorlevel%" EQU "43" (
+            if /I "%CHAFAN1%" EQU "%fan_mode_1%" (
+                set CHAFAN1=%fan_mode_2%
+                goto tabupdate
+            )
+            if /I "%CHAFAN1%" EQU "%fan_mode_2%" (
+                set CHAFAN1=%fan_mode_3%
+                goto tabupdate
+            )
+            if /I "%CHAFAN1%" EQU "%fan_mode_3%" (
+                set CHAFAN1=%fan_mode_4%
+                goto tabupdate
+            )
+        )
+        if /I "%errorlevel%" EQU "45" (
+            if /I "%CHAFAN1%" EQU "%fan_mode_2%" (
+                set CHAFAN1=%fan_mode_1%
+                goto tabupdate
+            )
+            if /I "%CHAFAN1%" EQU "%fan_mode_3%" (
+                set CHAFAN1=%fan_mode_2%
+                goto tabupdate
+            )
+            if /I "%CHAFAN1%" EQU "%fan_mode_4%" (
+                set CHAFAN1=%fan_mode_3%
+                goto tabupdate
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item4" (
+        if /I "%errorlevel%" EQU "43" (
+            if /I "%CHAFAN1MODE%" EQU "%fan_c_mode_1%" (
+                set CHAFAN1MODE=%fan_c_mode_2%
+                goto tabupdate
+            )
+        )
+        if /I "%errorlevel%" EQU "45" (
+            if /I "%CHAFAN1MODE%" EQU "%fan_c_mode_2%" (
+                set CHAFAN1MODE=%fan_c_mode_1%
+                goto tabupdate
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item5" (
+        if /I "%errorlevel%" EQU "43" (
+            if /I "%CHAFAN2%" EQU "%fan_mode_1%" (
+                set CHAFAN2=%fan_mode_2%
+                goto tabupdate
+            )
+            if /I "%CHAFAN2%" EQU "%fan_mode_2%" (
+                set CHAFAN2=%fan_mode_3%
+                goto tabupdate
+            )
+            if /I "%CHAFAN2%" EQU "%fan_mode_3%" (
+                set CHAFAN2=%fan_mode_4%
+                goto tabupdate
+            )
+        )
+        if /I "%errorlevel%" EQU "45" (
+            if /I "%CHAFAN2%" EQU "%fan_mode_2%" (
+                set CHAFAN2=%fan_mode_1%
+                goto tabupdate
+            )
+            if /I "%CHAFAN2%" EQU "%fan_mode_3%" (
+                set CHAFAN2=%fan_mode_2%
+                goto tabupdate
+            )
+            if /I "%CHAFAN2%" EQU "%fan_mode_4%" (
+                set CHAFAN2=%fan_mode_3%
+                goto tabupdate
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item6" (
+        if /I "%errorlevel%" EQU "43" (
+            if /I "%CHAFAN2MODE%" EQU "%fan_c_mode_1%" (
+                set CHAFAN2MODE=%fan_c_mode_2%
+                goto tabupdate
+            )
+        )
+        if /I "%errorlevel%" EQU "45" (
+            if /I "%CHAFAN2MODE%" EQU "%fan_c_mode_2%" (
+                set CHAFAN2MODE=%fan_c_mode_1%
+                goto tabupdate
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item7" (
+        if /I "%errorlevel%" EQU "43" (
+            if /I "%CHAFAN3%" EQU "%fan_mode_1%" (
+                set CHAFAN3=%fan_mode_2%
+                goto tabupdate
+            )
+            if /I "%CHAFAN3%" EQU "%fan_mode_2%" (
+                set CHAFAN3=%fan_mode_3%
+                goto tabupdate
+            )
+            if /I "%CHAFAN3%" EQU "%fan_mode_3%" (
+                set CHAFAN3=%fan_mode_4%
+                goto tabupdate
+            )
+        )
+        if /I "%errorlevel%" EQU "45" (
+            if /I "%CHAFAN3%" EQU "%fan_mode_2%" (
+                set CHAFAN3=%fan_mode_1%
+                goto tabupdate
+            )
+            if /I "%CHAFAN3%" EQU "%fan_mode_3%" (
+                set CHAFAN3=%fan_mode_2%
+                goto tabupdate
+            )
+            if /I "%CHAFAN3%" EQU "%fan_mode_4%" (
+                set CHAFAN3=%fan_mode_3%
+                goto tabupdate
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item8" (
+        if /I "%errorlevel%" EQU "43" (
+            if /I "%CHAFAN3MODE%" EQU "%fan_c_mode_1%" (
+                set CHAFAN3MODE=%fan_c_mode_2%
+                goto tabupdate
+            )
+        )
+        if /I "%errorlevel%" EQU "45" (
+            if /I "%CHAFAN3MODE%" EQU "%fan_c_mode_2%" (
+                set CHAFAN3MODE=%fan_c_mode_1%
+                goto tabupdate
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item9" (
+        if /I "%errorlevel%" EQU "43" (
+            if /I "%CHAFAN4%" EQU "%fan_mode_1%" (
+                set CHAFAN4=%fan_mode_2%
+                goto tabupdate
+            )
+            if /I "%CHAFAN4%" EQU "%fan_mode_2%" (
+                set CHAFAN4=%fan_mode_3%
+                goto tabupdate
+            )
+            if /I "%CHAFAN4%" EQU "%fan_mode_3%" (
+                set CHAFAN4=%fan_mode_4%
+                goto tabupdate
+            )
+        )
+        if /I "%errorlevel%" EQU "45" (
+            if /I "%CHAFAN4%" EQU "%fan_mode_2%" (
+                set CHAFAN4=%fan_mode_1%
+                goto tabupdate
+            )
+            if /I "%CHAFAN4%" EQU "%fan_mode_3%" (
+                set CHAFAN4=%fan_mode_2%
+                goto tabupdate
+            )
+            if /I "%CHAFAN4%" EQU "%fan_mode_4%" (
+                set CHAFAN4=%fan_mode_3%
+                goto tabupdate
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item10" (
+        if /I "%errorlevel%" EQU "43" (
+            if /I "%CHAFAN4MODE%" EQU "%fan_c_mode_1%" (
+                set CHAFAN4MODE=%fan_c_mode_2%
+                goto tabupdate
+            )
+        )
+        if /I "%errorlevel%" EQU "45" (
+            if /I "%CHAFAN4MODE%" EQU "%fan_c_mode_2%" (
+                set CHAFAN4MODE=%fan_c_mode_1%
+                goto tabupdate
+            )
+        )
+    )
+)
 
+goto tabupdate
 
 :error
 cls
