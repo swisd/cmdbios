@@ -1,8 +1,10 @@
 @shift
 @echo off
+cls
+
 rem if "%1" == "fullscreen" (
 rem   batbox.exe /f 0
-rem   if "%2" == "defaultcolor" (
+rem   if "%2" == "defaultcolor" (656][[]
 rem     set background=[44m
 rem   )
 rem
@@ -243,17 +245,50 @@ set item20=%doublespace%
 
 
 ping localhost -n 3 >nul
+
+
+cls
+batbox.exe /g 0 0
+call %cd%/biosvars.bat
+if "%errorlevel%" EQU "1" (
+    goto svar
+)
+set fileerror=Found BIOSVARS in %cd%
+set vrset=BIOSVARS saved
+goto title
+
+:svar
+set fileerror=No variable file found. Using default variable set.
+set vrset=Program Default
+goto title
 ::Main Menu
 
 :title
+cls
 echo    ________  _______  ____  ________  _____
 echo   / ____/  ¦/  / __ \/ __ )/  _/ __ \/ ___/
 echo  / /   / /¦_/ / / / / __  ¦/ // / / /\__ \
 echo / /___/ /  / / /_/ / /_/ // // /_/ /___/ /
 echo \____/_/  /_/_____/_____/___/\____//____/ v%biosversion%
 echo.
+echo %fileerror%
+echo.
 call cinderblock-small-notext.bat
-
+echo.
+echo.
+ping localhost -n 4 >nul
+echo [ VR ] Using varset: %vrset%
+ping localhost -n 2 >nul
+echo [ OK ] Variables loaded
+ping localhost -n 2 >nul
+echo [ OK ] BATBOX exe exists; found: %cd%
+ping localhost -n 2 >nul
+echo [ OK ] Deleting errormsg
+del errormsg.vbs>nul
+ping localhost -n 2 >nul
+echo [ OK ] batbox keyinput ready
+rem pause>nul
+rem cls
 setlocal ENABLEDELAYEDEXPANSION
 
 :updatemx
@@ -460,6 +495,7 @@ goto menubar
 
 :menubar
 cls
+rem batbox.exe /g 0 0
 echo %clear%%background%#  CMDBIOS %biosversion%    ⤷ select menu  +/- change value  ↑/↓ switch item  ←/→ switch tab  ⌫  go back
 echo   %c1r%Main%c1l%    %c2r%Advanced%c2l%    %c3r%Power%c3l%    %c4r%Boot%c4l%    %c5r%Hardware%c5l%    %c6r%Security%c6l%    %c7r%Exit%c7l%      %tab%   %cItem%
 if /I "%tab%" EQU "1" (
@@ -763,7 +799,7 @@ set keyinput=%errorlevel%
 if /I "%keyinput%" EQU "9009" (
 set "cause=batbox.exe /k"
 set "errfunc=determinetab"
-set "errline=505"
+set "errline=781"
 )
 echo %keyinput%
 echo %tab%
@@ -776,42 +812,144 @@ if /I "%keyinput%" EQU "13" (
   if /I "%tab%" EQU "7" (
     if /I "%cItem%" EQU "item1" (
       (
-      echo color 17
-
-      echo set "doublespace=%doublespace%"
-      echo set "pointerspace=%pointerspace%"
+      echo set hash=
+      echo set "doublespace=  "
+      echo set "pointerspace=- "
+      echo set "pointerspace=➤ "
       echo set cItem=item1
-      echo ::Main Variables
-      echo set biosversion=2.30
-      echo set bootpriority=Disk
-      echo set boot2=USB
-      echo set boot3=Network
-      echo set basepath=
+      echo ::::::::::::::::::::
+      echo ::General Choices
+      echo ::::::::::::::::::::
+      echo ::Enable/Disable
+      echo set enabledisable_0=Disabled
+      echo set enabledisable_1=Enabled
+      echo set onoff_0=Off
+      echo set onoff_1=On
+      echo ::::::::::::::::::::::::::
+      echo ::General/Misc Variables
+      echo ::::::::::::::::::::::::::
+      echo set secBoot=%secBoot%
+      echo set iBackground=%iBackground%
+      echo set clear=%clear%
+      echo set inverse=%inverse%
+      echo set pageback=%background%
+      echo ::BIOS
+      echo set sysbioscache=%sysbioscache%
+      echo set vidbioscache=%vidbioscache%
+      echo set hash=%hash%
+      echo set biosupdate=%biosupdate%
+      echo set biosversion=%biosversion%
+      echo set bootpriority=%bootpriority%
+      echo set boot2=%boot2%
+      echo set boot3=%boot3%
+      echo set basepath=%basepath%
       echo set biospath=%cd%\
-      echo set language=English
-      echo set cpuVcoreVoltage=1.45
-      echo set cpuL1Enb=Enabled
-      echo set cpuL2Enb=Enabled
-      echo set cpuL2ECCEnb=Disabled
-      echo set cpuL3Enb=Enabled
-      echo set bclk=4600
-      echo set spciratio=10/100
-      echo set boostclk=5600
-      echo set csfm=2.0
-      echo set pcifreq=8000
-      echo set fastbt=On
-      echo set pchVoltage=1.0
-      echo set tpm2in=Enabled
-      echo set secBoot=Enabled
-      echo set isSuperPass=Disabled
-      echo set isUserPass=Disabled
-      echo set acpif=Enabled
-      echo set acpisust=S1
-      echo set powman=User-Define
-      echo.
-      echo set bootnl=On
-
-      ) >%cd%/biosvars
+      echo set language=%language%
+      echo set isSuperPass=%isSuperPass%
+      echo set isUserPass=%isUserPass%
+      echo set bootnl=%bootnl%
+      echo set fastbt=%fastbt%
+      echo set halton=%halton%
+      echo set "videooffoption=%videooffoption%"
+      echo set vidoffmethod=%vidoffmethod%
+      echo set hddpowerdn=%hddpowerdn%
+      echo set ramsuscap=%ramsuscap%
+      echo ::CPU
+      echo set cpuVcoreVoltage=%cpuVcoreVoltage%
+      echo set cpuL1Enb=%cpuL1Enb%
+      echo set cpuL2Enb=%cpuL2Enb%
+      echo set cpuL2ECCEnb=%cpuL2ECCEnb%
+      echo set cpuL3Enb=%cpuL3Enb%
+      echo set bclk=%bclk%
+      echo set boostclk=%boostclk%
+      echo set csfm=%csfm%
+      echo set susmode=%susmode%
+      echo set pbtnfour=%pbtnfour%
+      echo set cputherm=%cputherm%
+      echo set cpupowlim=%cpupowlim%
+      echo set cputs=%cputs%
+      echo set ivtx=%ivtx%
+      echo set hyperthread=%hyperthread%
+      echo set loadperf=%loadperf%
+      echo ::CHIPSET
+      echo set pchVoltage=%pchVoltage%
+      echo ::MEM
+      echo set meminstalled=%meminstalled%
+      echo set xmpprofile=%xmpprofile%
+      echo set os2mem=%os2mem%
+      echo set ramfreq=%ramfreq%
+      echo ::IO
+      echo set ps2mfc=%ps2mfc%
+      echo set usblegacy=%usblegacy%
+      echo set onbaudio=%onbaudio%
+      echo set onbserial=%onbserial%
+      echo set onbserialmode=%onbserialmode%
+      echo set ps2supp=%ps2supp%
+      echo ::PCIE
+      echo set spciratio=%spciratio%
+      echo set pciefreq=%pciefreq%
+      echo set pciespeed=%pciespeed%
+      echo set pcieaspm=%pcieaspm%
+      echo set avcardpri=%avcardpri%
+      echo set pcielane116spd=%pcielane116spd%
+      echo set pcielane1720spd=%pcielane1720spd%
+      echo set pcielane2124spd=%pcielane2124spd%
+      echo set pcielane25spd=%pcielane25spd%
+      echo set pcielane26spd=%pcielane26spd%
+      echo set pcieslt1enb=%pcieslt1enb%
+      echo set pcieslt2enb=%pcieslt2enb%
+      echo set pcieslt3enb=%pcieslt3enb%
+      echo set pcieslt4enb=%pcieslt4enb%
+      echo set pcieslt5enb=%pcieslt5enb%
+      echo set pcielanebifur=%pcielanebifur%
+      echo ::NET
+      echo set onlan1=%onlan1%
+      echo set onlan2=%onlan2%
+      echo set wlan1=%wlan1%
+      echo set wlan2=%wlan2%
+      echo set onbbt=%onbbt%
+      echo set onbwifi=%onbwifi%
+      echo ::DISK
+      echo set satamode=%satamode%
+      echo set nvmeconfig=%nvmeconfig%
+      echo ::POWER
+      echo set acpif=%acpif%
+      echo set acpisust=%acpisust%
+      echo set powman=%powman%
+      echo set restorePL=%restorePL%
+      echo set poweronmthd=%poweronmthd%
+      echo set intspeedstep=%intspeedstep%
+      echo set cpucstate=%cpucstate%
+      echo set s3powman=%s3powman%
+      echo set s4powman=%s4powman%
+      echo set bootperfmode=%bootperfmode%
+      echo set onbdevpowcon=%onbdevpowcon%
+      echo set pdelay=%pdelay%
+      echo set aspo=%aspo%
+      echo set pwrbtnbehav=%pwrbtnbehav%
+      echo ::FAN
+      echo set fan_mode_1=Silent
+      echo set fan_mode_2=Normal
+      echo set fan_mode_3=Performance
+      echo set fan_mode_4=Full Speed
+      echo set fan_c_mode_1=PWM
+      echo set fan_c_mode_2=DC
+      echo set CPUFAN1=%CPUFAN1%
+      echo set CPUFAN1MODE=%CPUFAN1MODE%
+      echo set CHAFAN1=%CHAFAN1%
+      echo set CHAFAN1MODE=%CHAFAN1MODE%
+      echo set CHAFAN2=%CHAFAN2%
+      echo set CHAFAN2MODE=%CHAFAN2MODE%
+      echo set CHAFAN3=%CHAFAN3%
+      echo set CHAFAN3MODE=%CHAFAN3MODE%
+      echo set CHAFAN4=%CHAFAN4%
+      echo set CHAFAN4MODE=%CHAFAN4MODE%
+      echo set fanFailWarning=%fanFailWarning%
+      echo ::SECURITY
+      echo set tpm2in=%tpm2in%
+      echo set intlsgx=%intlsgx%
+      ) >%cd%/biosvars.bat
+      timeout -t 2
       exit
     )
   )
@@ -1364,6 +1502,188 @@ if /I "%tab%" EQU "3" (
         if /I "%keyinput%" EQU "45" (
             if /I "%cputherm%" EQU "Enabled" (
                 set cputherm=Disabled
+                goto tabupdate
+            )
+        )
+    )
+)
+if /I "%tab%" EQU "4" (
+    if /I "%cItem%" EQU "item1" (
+        if /I "%keyinput%" EQU "43" (
+            if /I "%bootnl%" EQU "Off" (
+                set bootnl=On
+                goto tabupdate
+            )
+        )
+        if /I "%keyinput%" EQU "45" (
+            if /I "%bootnl%" EQU "On" (
+                set bootnl=Off
+                goto tabupdate
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item2" (
+        if /I "%keyinput%" EQU "43" (
+            if /I "%fastbt%" EQU "Off" (
+                set fastbt=On
+                goto tabupdate
+            )
+        )
+        if /I "%keyinput%" EQU "45" (
+            if /I "%fastbt%" EQU "On" (
+                set fastbt=Off
+                goto tabupdate
+            )
+        )
+    )
+)
+if /I "%tab%" EQU "5" (
+    if /I "%cItem%" EQU "item4" (
+        if /I "%keyinput%" EQU "43" (
+            if /I "%ivtx%" EQU "Off" (
+                set ivtx=On
+                goto tabupdate
+            )
+        )
+        if /I "%keyinput%" EQU "45" (
+            if /I "%ivtx%" EQU "On" (
+                set ivtx=Off
+                goto tabupdate
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item5" (
+        if /I "%keyinput%" EQU "43" (
+            if /I "%hyperthread%" EQU "Disabled" (
+                set hyperthread=Enabled
+                goto tabupdate
+            )
+        )
+        if /I "%keyinput%" EQU "45" (
+            if /I "%hyperthread%" EQU "Enabled" (
+                set hyperthread=Disabled
+                goto tabupdate
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item8" (
+        if /I "%keyinput%" EQU "43" (
+            if /I "%loadperf%" EQU "Normal" (
+                set loadperf=Performance
+                goto tabupdate
+            )
+            if /I "%loadperf%" EQU "Performance" (
+                set loadperf=Turbo
+                goto tabupdate
+            )
+        )
+        if /I "%keyinput%" EQU "45" (
+            if /I "%loadperf%" EQU "Turbo" (
+                set loadperf=Performance
+                goto tabupdate
+            )
+            if /I "%loadperf%" EQU "Performance" (
+                set loadperf=Normal
+                goto tabupdate
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item11" (
+        if /I "%keyinput%" EQU "43" (
+            if /I "%cpuL1Enb%" EQU "Disabled" (
+                set cpuL1Enb=Enabled
+                goto tabupdate
+            )
+        )
+        if /I "%keyinput%" EQU "45" (
+            if /I "%cpuL1Enb%" EQU "Enabled" (
+                set cpuL1Enb=Disabled
+                goto tabupdate
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item12" (
+        if /I "%keyinput%" EQU "43" (
+            if /I "%cpuL2Enb%" EQU "Disabled" (
+                set cpuL2Enb=Enabled
+                goto tabupdate
+            )
+        )
+        if /I "%keyinput%" EQU "45" (
+            if /I "%cpuL2Enb%" EQU "Enabled" (
+                set cpuL2Enb=Disabled
+                goto tabupdate
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item13" (
+        if /I "%keyinput%" EQU "43" (
+            if /I "%cpuL3Enb%" EQU "Disabled" (
+                set cpuL3Enb=Enabled
+                goto tabupdate
+            )
+        )
+        if /I "%keyinput%" EQU "45" (
+            if /I "%cpuL3Enb%" EQU "Enabled" (
+                set cpuL3Enb=Disabled
+                goto tabupdate
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item14" (
+        if /I "%keyinput%" EQU "43" (
+            if /I "%cpuL2ECCEnb%" EQU "Disabled" (
+                set cpuL2ECCEnb=Enabled
+                goto tabupdate
+            )
+        )
+        if /I "%keyinput%" EQU "45" (
+            if /I "%cpuL2ECCEnb%" EQU "Enabled" (
+                set cpuL2ECCEnb=Disabled
+                goto tabupdate
+            )
+        )
+    )
+)
+if /I "%tab%" EQU "6" (
+    if /I "%cItem%" EQU "item3" (
+        if /I "%keyinput%" EQU "43" (
+            if /I "%secBoot%" EQU "Disabled" (
+                set secBoot=Enabled
+                goto tabupdate
+            )
+        )
+        if /I "%keyinput%" EQU "45" (
+            if /I "%secBoot%" EQU "Enabled" (
+                set secBoot=Disabled
+                goto tabupdate
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item4" (
+        if /I "%keyinput%" EQU "43" (
+            if /I "%tpm2In%" EQU "Disabled" (
+                set tpm2In=Enabled
+                goto tabupdate
+            )
+        )
+        if /I "%keyinput%" EQU "45" (
+            if /I "%tpm2In%" EQU "Enabled" (
+                set tpm2In=Disabled
+                goto tabupdate
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item5" (
+        if /I "%keyinput%" EQU "43" (
+            if /I "%intlsgx%" EQU "Disabled" (
+                set intlsgx=Enabled
+                goto tabupdate
+            )
+        )
+        if /I "%keyinput%" EQU "45" (
+            if /I "%intlsgx%" EQU "Enabled" (
+                set intlsgx=Disabled
                 goto tabupdate
             )
         )
