@@ -37,11 +37,17 @@ set "pointerspace=- "
 set "pointerspace=➤ "
 rem set "pointerspace=➽ "
 rem set "pointerspace=➧ "
+for /f "tokens=2 delims==" %%a in ('wmic OS Get localdatetime /value') do set "dt=%%a"
+set "YY=%dt:~2,2%" & set "YYYY=%dt:~0,4%" & set "MM=%dt:~4,2%" & set "DD=%dt:~6,2%"
+set "HH=%dt:~8,2%" & set "Min=%dt:~10,2%" & set "Sec=%dt:~12,2%"
 
+set "datestamp=%YYYY%%MM%%DD%" & set "timestamp=%HH%%Min%%Sec%"
+set "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
 rem  Uncomment if you want selected text to be shifted
 
 rem set "pointerspace=➤  "
 
+set removeonstart=True
 
 rem if "%1" == "spaceshift" (
 rem    set "pointerspace=➤  "
@@ -63,7 +69,6 @@ set onoff_1=On
 ::General/Misc Variables
 ::::::::::::::::::::::::::
 
-set secBoot=Enable
 set iBackground=off
 set clear=[0m
 set inverse=[7m
@@ -203,6 +208,7 @@ set fanFailWarning=Enabled
 ::SECURITY
 set tpm2in=Enabled
 set intlsgx=Enabled
+set secBoot=Enabled
 
 ::PAGE
 set "c1r=["
@@ -243,7 +249,7 @@ set item19=%doublespace%
 set item20=%doublespace%
 
 
-
+echo loadvars,0,bios,orange,D,%datestamp%,%timestamp%,%random%%random%%random%%random%;>events.txt
 ping localhost -n 3 >nul
 
 
@@ -264,6 +270,7 @@ goto title
 ::Main Menu
 
 :title
+echo start,0,bios,orange,D,%datestamp%,%timestamp%,%random%%random%%random%%random%;>events.txt
 cls
 echo    ________  _______  ____  ________  _____
 echo   / ____/  ¦/  / __ \/ __ )/  _/ __ \/ ___/
@@ -276,17 +283,37 @@ echo.
 call cinderblock-small-notext.bat
 echo.
 echo.
-ping localhost -n 4 >nul
+ping localhost -n 2 >nul
 echo [ VR ] Using varset: %vrset%
-ping localhost -n 2 >nul
+ping localhost -n 1 >nul
 echo [ OK ] Variables loaded
-ping localhost -n 2 >nul
+ping localhost -n 1 >nul
 echo [ OK ] BATBOX exe exists; found: %cd%
-ping localhost -n 2 >nul
+ping localhost -n 1 >nul
 echo [ OK ] Deleting errormsg
-del errormsg.vbs>nul
-ping localhost -n 2 >nul
+del errormsg.vbs >nul
+ping localhost -n 1 >nul
 echo [ OK ] batbox keyinput ready
+echo.
+echo RTDEVICES -----------------------------------------
+ping localhost -n 2 >nul
+wmic cpu get DeviceID, NumberOfCores, NumberOfLogicalProcessors
+echo 0x01  CPU [32mOK%background%
+ping localhost -n 2 >nul
+echo 0x31  GPU [32mOK%background%
+ping localhost -n 2 >nul
+wmic memorychip get devicelocator, capacity, speed
+echo 0x11  RAM [32mOK%background%
+ping localhost -n 2 >nul
+wmic diskdrive get model,serialNumber,size,mediaType
+echo 0x21  DSK [32mOK%background%
+ping localhost -n 2 >nul
+echo 0x41  NET [32mOK%background%
+echo ----------------------------------------------------
+ping localhost -n 2 >nul
+echo \\ [32m7F%background%
+echo \\ SYS OK.
+
 rem pause>nul
 rem cls
 setlocal ENABLEDELAYEDEXPANSION
@@ -496,7 +523,7 @@ goto menubar
 :menubar
 cls
 rem batbox.exe /g 0 0
-echo %clear%%background%#  CMDBIOS %biosversion%    ⤷ select menu  +/- change value  ↑/↓ switch item  ←/→ switch tab  ⌫  go back
+echo %clear%%background%⌬  CMDBIOS %biosversion%    ⤷ select menu  +/- change value  ↑/↓ switch item  ←/→ switch tab  ⌫  go back
 echo   %c1r%Main%c1l%    %c2r%Advanced%c2l%    %c3r%Power%c3l%    %c4r%Boot%c4l%    %c5r%Hardware%c5l%    %c6r%Security%c6l%    %c7r%Exit%c7l%      %tab%   %cItem%
 if /I "%tab%" EQU "1" (
   goto mainmenu
@@ -794,12 +821,19 @@ echo 5 - %keyinput5%
 
 :determinetab
 batbox.exe /k
+for /f "tokens=2 delims==" %%a in ('wmic OS Get localdatetime /value') do set "dt=%%a"
+set "YY=%dt:~2,2%" & set "YYYY=%dt:~0,4%" & set "MM=%dt:~4,2%" & set "DD=%dt:~6,2%"
+set "HH=%dt:~8,2%" & set "Min=%dt:~10,2%" & set "Sec=%dt:~12,2%"
+
+set "datestamp=%YYYY%%MM%%DD%" & set "timestamp=%HH%%Min%%Sec%"
+set "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
+echo keypress,%errorlevel%,KeypressReg,blue,I,%datestamp%,%timestamp%,%random%%random%%random%%random%;>events.txt
 set currenttab=%tab%
 set keyinput=%errorlevel%
 if /I "%keyinput%" EQU "9009" (
 set "cause=batbox.exe /k"
 set "errfunc=determinetab"
-set "errline=781"
+set "errline=797"
 )
 echo %keyinput%
 echo %tab%
@@ -1923,6 +1957,7 @@ exit
 
 :dependencyerror
 cls
+echo event: deperror, value: 9009, tag: bios, tcol: orange, prio: F, tdate: %datestamp%, tx: %timestamp% uid:%random%%random%%random%%random%;>events.txt
 for /F "tokens=2 delims==." %%I in ('%SystemRoot%\System32\wbem\wmic.exe OS GET LocalDateTime /VALUE') do set "LocalTime=%%I"
 set "LocalTime=%LocalTime:~8,4%"
 set dxa=%errorlevel%

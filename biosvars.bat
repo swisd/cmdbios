@@ -44,7 +44,7 @@ set ramsuscap=Enabled
 set cpuVcoreVoltage=1.45
 set cpuL1Enb=Enabled
 set cpuL2Enb=Enabled
-set cpuL2ECCEnb=Disabled
+set cpuL2ECCEnb=Enabled
 set cpuL3Enb=Enabled
 set bclk=4600
 set boostclk=5600
@@ -56,7 +56,7 @@ set cpupowlim=95W
 set cputs=100C
 set ivtx=On
 set hyperthread=Enabled
-set loadperf=Normal
+set loadperf=Performance
 ::CHIPSET
 set pchVoltage=1.0
 ::MEM
