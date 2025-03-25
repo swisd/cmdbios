@@ -1,19 +1,19 @@
-@shift
+rem @shift
 @echo off
 cls
-
-rem if "%1" == "fullscreen" (
-rem   batbox.exe /f 0
-rem   if "%2" == "defaultcolor" (656][[]
-rem     set background=[44m
-rem   )
-rem
-rem )
+mode con: cols=100 lines=26
 batbox.exe /f 0
 set currentScreenMode=F
-if "%1" == "defaultcolor" (
+if /I "%1" EQU "defaultcolor" (
   set background=[44m
 )
+if /I "%2" EQU "min" (
+    batbox.exe /f 1
+    set currentScreenMode=W
+)
+
+echo %1
+echo %2
 
 rem mode 150,40
 rem Default color for display is 1f, 79, 9f, 0b, 0a, or 17
@@ -25,13 +25,13 @@ set uicolor=0b ANSI (ESC[96m)
 echo %background%
 title CMDBIOS
 
-rem if exist %cd%/hash/hash256sha.bat (
-rem    for /f "tokens=1 delims=" %%a in ('%cd%/hash/hash256sha.bat %cd%/bios.bat') do set hash=%%a
+rem if exist %~dp0/hash/hash256sha.bat (
+rem    for /f "tokens=1 delims=" %%a in ('%~dp0/hash/hash256sha.bat %~dp0/bios.bat') do set hash=%%a
 rem )
 rem chcp 65001
 
 set hash=
-rem for /f "tokens=*" %%a in ('powershell -command "Get-FileHash -Path '%cd%/bios.bat' -Algorithm SHA256 | Select-Object -ExpandProperty Hash"') do set "hash=%%a"
+rem for /f "tokens=*" %%a in ('powershell -command "Get-FileHash -Path '%~dp0/bios.bat' -Algorithm SHA256 | Select-Object -ExpandProperty Hash"') do set "hash=%%a"
 set "doublespace=  "
 set "pointerspace=- "
 set "pointerspace=➤ "
@@ -77,14 +77,28 @@ set pageback=%background%
 ::BIOS
 set sysbioscache=Enabled
 set vidbioscache=Enabled
-set hash=2B3FB78BBDDB5E2AA8043231A2278BC7E279F33AF7D61635C31989FC21CE338D
-set biosupdate=Enabled
+
+set file=%~dp0/bios.bat
+
+:: PowerShell command to compute SHA-256 hash
+for /f "tokens=*" %%a in ('powershell -command "Get-FileHash -Path '%file%' -Algorithm SHA256 | Select-Object -ExpandProperty Hash"') do set "hash=%%a"
+
+echo SHA-256 Hash: %hash%
+
+:: PowerShell command to convert hexadecimal hash to byte array and then to base64
+for /f "tokens=*" %%a in ('powershell -command "$hash = '%hash%'; $bytes = [convert]::FromHexString($hash); [convert]::ToBase64String($bytes)"') do set "base64Hash=%%a"
+
+echo Base64 Hash: %base64Hash%
+
+echo cs
+
+set hash=%base64Hash%
 set biosversion=3.31
 set bootpriority=Disk
 set boot2=USB
 set boot3=Network
 set basepath=
-set biospath=%cd%\
+set biospath=%~dp0\
 set language=English
 set isSuperPass=Disabled
 set isSuperPass_1=Disabled
@@ -121,6 +135,10 @@ set loadperf=Normal
 
 ::CHIPSET
 set pchVoltage=1.0
+set emmcOK=Enabled
+set emmcSpeed=HS400
+set iWIFI=Enabled, OK
+set fanAC=Enabled
 
 ::MEM
 set meminstalled=8192 MB DDR4 2666
@@ -255,11 +273,11 @@ ping localhost -n 3 >nul
 
 cls
 batbox.exe /g 0 0
-call %cd%/biosvars.bat
+call %~dp0/biosvars.bat
 if "%errorlevel%" EQU "1" (
     goto svar
 )
-set fileerror=Found BIOSVARS in %cd%
+set fileerror=Found BIOSVARS in %~dp0
 set vrset=BIOSVARS saved
 goto title
 
@@ -285,10 +303,45 @@ echo.
 echo.
 ping localhost -n 2 >nul
 echo [ VR ] Using varset: %vrset%
+::mklink /D "circular.k" "circular.k">nul
+echo st:
+for /f "tokens=2" %%i in ('wmic os get caption') do set VERSION1=%%i
+echo v1
+for /f "tokens=3" %%i in ('wmic os get caption') do set VERSION2=%%i
+echo v2
+for /f "tokens=4" %%i in ('wmic os get caption') do set VERSION3=%%i
+echo v3
+FOR /F "tokens=2*" %%A IN ('REG QUERY "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v DisplayVersion 2^> nul') DO SET "CODENAME= %%B "
+echo cdnm
+FOR /F "skip=2 tokens=2,*" %%A IN ('reg.exe query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v "ReleaseId"') DO set "DFMT7= %%B "
+echo dfmt7
+FOR /F "skip=2 tokens=2,*" %%A IN ('reg.exe query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v "CurrentBuild"') DO set "DFMT5= %%B"
+echo dfmt5
+FOR /F "tokens=2*" %%a in ('Reg Query "HKLM\Software\Microsoft\Windows NT\CurrentVersion" /v UBR') do set "UBRHEX=%%~b"
+set /a UBRDEC=%UBRHEX%
+echo ubr
+for /f "tokens=3 delims=()" %%a in ('wmic timezone get caption /value') do set tzone1=%%a
+echo tzne0
+for /f "tokens=2 delims=()" %%a in ('wmic timezone get caption /value') do set tzone2=%%a
+echo tzne1
+
+
+if "%PROCESSOR_ARCHITECTURE%"=="AMD64" (set "OSARC= 64bit ")
+if "%PROCESSOR_ARCHITECTURE%"=="x86" (set "OSARC= 32bit ")
+
+
+set "downloadDir=%USERPROFILE%\Downloads"
+
+if "%PROCESSOR_ARCHITECTURE%"=="AMD64" (
+    set "arch=64"
+) else (
+    set "arch=32"
+)
 ping localhost -n 1 >nul
 echo [ OK ] Variables loaded
+::fsutil sparse create "utils_dsk.sparse" 17179869000000 >nul
 ping localhost -n 1 >nul
-echo [ OK ] BATBOX exe exists; found: %cd%
+echo [ OK ] BATBOX exe exists; found: %~dp0
 ping localhost -n 1 >nul
 echo [ OK ] Deleting errormsg
 del errormsg.vbs >nul
@@ -314,6 +367,10 @@ ping localhost -n 2 >nul
 echo \\ [32m7F%background%
 echo \\ SYS OK.
 
+
+set "btmbar=[104m[37m %VERSION1% %VERSION2% %VERSION3% [0m[41m[37m%DFMT7%[0m[42m%CODENAME%[0m[44m%DFMT5%.%UBRDEC% [0m[45m%OSARC%[0m"
+batbox.exe /h 0
+
 rem pause>nul
 rem cls
 setlocal ENABLEDELAYEDEXPANSION
@@ -324,7 +381,7 @@ rem for /f "tokens=3" %%A in ('reg query HKCU\Console /v WindowSize') do set /a 
 goto determinetab
 
 :tabupdate
-echo %window_height%
+
 if /I "%iBackground%" EQU "on" (
    set pageback=%inverse%
 )
@@ -524,21 +581,24 @@ goto menubar
 cls
 rem batbox.exe /g 0 0
 echo %clear%%background%⌬  CMDBIOS %biosversion%    ⤷ select menu  +/- change value  ↑/↓ switch item  ←/→ switch tab  ⌫  go back
-echo   %c1r%Main%c1l%    %c2r%Advanced%c2l%    %c3r%Power%c3l%    %c4r%Boot%c4l%    %c5r%Hardware%c5l%    %c6r%Security%c6l%    %c7r%Exit%c7l%      %tab%   %cItem%
+echo   %c1r%Main%c1l%    %c2r%Advanced%c2l%    %c3r%Power%c3l%    %c4r%Boot%c4l%    %c5r%Hardware%c5l%    %c6r%Security%c6l%    %c7r%Exit%c7l%    [%tab%]
+if /I "%tab%" EQU "0" (
+    goto help
+)
 if /I "%tab%" EQU "1" (
-  goto mainmenu
+    goto mainmenu
 )
 if /I "%tab%" EQU "2" (
-  goto advancedtab
+    goto advancedtab
 )
 if /I "%tab%" EQU "3" (
-  goto powertab
+    goto powertab
 )
 if /I "%tab%" EQU "4" (
-  goto boottab
+    goto boottab
 )
 if /I "%tab%" EQU "5" (
-  goto hardwaretab
+    goto hardwaretab
 )
 if /I "%tab%" EQU "6" (
   goto securitytab
@@ -594,6 +654,18 @@ echo %item3%System Language                [%language%]
 echo.
 echo %item4%UI Color Scheme                [%uicolor%]
 echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo %btmbar%
 goto updatemx
 
 :advancedtab
@@ -607,6 +679,19 @@ echo %item6%Installed Memory               %meminstalled%
 echo %item7%XMP Profile                    [%xmpprofile%]
 echo.
 echo %item8%Fan Configuration
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo %btmbar%
 goto updatemx
 
 :powertab
@@ -629,6 +714,11 @@ echo %item12%CPU Thermal Shutdown           [%cputs%]
 echo.
 echo %item13%Power Up Control
 echo %item14%Hardware Monitor
+echo.
+echo.
+echo.
+echo.
+echo %btmbar%
 
 goto updatemx
 
@@ -640,6 +730,22 @@ echo.
 echo %item3%1. %bootpriority%                         [Kingston NV2 SNV2S/250G]
 echo %item4%2. %boot2%                          [None]
 echo %item5%3. %boot3%                      [I219-V]
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo %btmbar%
 goto updatemx
 
 :hardwaretab
@@ -659,10 +765,13 @@ echo %item12%CPU Level 2 Cache               [%cpuL2Enb%]
 echo %item13%CPU Level 3 Cache               [%cpuL3Enb%]
 echo %item14%CPU Level 2 Cache ECC Check     [%cpuL2ECCEnb%]
 echo.
-echo %item15%Chip Configuration
+echo %item15%Chipset Configuration
 echo %item16%I/O Device Configuration
 echo %item17%PCIe Configuration
 echo %item18%Disk Configuration
+echo.
+echo.
+echo %btmbar%
 goto updatemx
 
 :securitytab
@@ -674,6 +783,21 @@ echo %item3%Secure Boot                     [%secBoot%]
 echo %item4%TPM 2.0                         [%tpm2In%]
 echo.
 echo %item5%Intel SGX                       [%intlsgx%]
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo %btmbar%
 goto updatemx
 
 :exittab
@@ -683,6 +807,23 @@ echo %item2%Discard and Exit                None
 echo %item3%Save                            None
 echo %item4%Discard                         None
 echo %item5%Exit                            ESC
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo %btmbar%
 goto updatemx
 
 
@@ -703,6 +844,14 @@ echo %item8%System BIOS Cacheable           [%sysbioscache%]
 echo %item9%Video BIOS Cacheable            [%vidbioscache%]
 echo.
 echo %item10%RAM Frequency                   [%ramfreq%]
+echo.
+echo %item11%Integrated Wifi                 [%iWIFI%]
+echo %item12%FAN Autocontrol                 [%fanAC%]
+echo.
+echo.
+echo.
+echo.
+echo %btmbar%
 goto updatemx
 
 
@@ -717,6 +866,19 @@ echo %item4%Onboard Serial                  [%onbserial%]
 echo %item5%Onboard Serial Mode             [%onbserialmode%]
 echo.
 echo %item6%PS/2 Port Support               [%ps2supp%]
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo %btmbar%
 goto updatemx
 
 
@@ -742,6 +904,8 @@ echo    %item12%Slot 4 (x1)                  [%pcieslt4enb%]
 echo    %item13%Slot 5 (x1)                  [%pcieslt5enb%]
 echo.
 echo %item14%PCIe Lane Bifurcation           [%pcielanebifur%]
+echo.
+echo %btmbar%
 
 goto updatemx
 
@@ -759,13 +923,42 @@ echo %item7%Onboard Device Power Control    [%onbdevpowcon%]
 echo %item8%POST Delay                      [%pdelay%]
 echo %item9%Automatic System Power-On       [%aspo%]
 echo.
-echo %item10%Power Button Behavior          [%pwrbtnbehav%]
+echo %item10%Power Button Behavior           [%pwrbtnbehav%]
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo %btmbar%
 goto updatemx
 
 :hardwaremonitor
 echo %pageback%
 echo %item1%None
 echo %item2%None
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo %btmbar%
 goto updatemx
 
 :fanmenu
@@ -783,6 +976,15 @@ echo     %item9%CHA FAN 4                   [%CHAFAN4%]
 echo     %item10%CHA FAN 4 MODE              [%CHAFAN4MODE%]
 echo.
 echo %item11%Fan Fail Warning                [%fanFailWarning%]
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo %btmbar%
 
 goto updatemx
 
@@ -790,6 +992,26 @@ goto updatemx
 echo %pageback%
 echo %item1%SATA Mode                       [%satamode%]
 echo %item2%NVMe Configuration              [%nvmeconfig%]
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo %btmbar%
 
 goto updatemx
 
@@ -814,12 +1036,42 @@ echo 2 - %keyinput2%
 echo 3 - %keyinput3%
 echo 4 - %keyinput4%
 echo 5 - %keyinput5%
+echo.
+echo.
+echo %btmbar%
+goto updatemx
 
-
-
-
+:help
+echo %pageback%
+echo.
+echo ------------------------------------- CMDBIOS HELP Menu -------------------------------------
+echo.
+echo.
+echo                 ____˅
+echo Current Cursor: ^|%item1%^|
+echo  [P] to change
+echo  cursor
+echo.
+echo.
+echo.
+echo [I]          Change Background
+echo [H]          Help Menu
+echo [SHIFT + `]  Fullscreen/Windowed
+echo [R]          Refresh-Reset
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo %btmbar%
+goto updatemx
 
 :determinetab
+set keyinput5=%keyinput4%
+set keyinput4=%keyinput3%
+set keyinput3=%keyinput2%
+set keyinput2=%keyinput%
 batbox.exe /k
 for /f "tokens=2 delims==" %%a in ('wmic OS Get localdatetime /value') do set "dt=%%a"
 set "YY=%dt:~2,2%" & set "YYYY=%dt:~0,4%" & set "MM=%dt:~4,2%" & set "DD=%dt:~6,2%"
@@ -835,13 +1087,6 @@ set "cause=batbox.exe /k"
 set "errfunc=determinetab"
 set "errline=797"
 )
-echo %keyinput%
-echo %tab%
-set keyinput5=%keyinput4%
-set keyinput4=%keyinput3%
-set keyinput3=%keyinput2%
-set keyinput2=%keyinput%
-set keyinput=%keyinput%
 if /I "%keyinput%" EQU "13" (
   if /I "%tab%" EQU "7" (
     if /I "%cItem%" EQU "item1" (
@@ -877,7 +1122,7 @@ if /I "%keyinput%" EQU "13" (
       echo set boot2=%boot2%
       echo set boot3=%boot3%
       echo set basepath=%basepath%
-      echo set biospath=%cd%\
+      echo set biospath=%~dp0\
       echo set language=%language%
       echo set isSuperPass=%isSuperPass%
       echo set isUserPass=%isUserPass%
@@ -982,7 +1227,7 @@ if /I "%keyinput%" EQU "13" (
       echo ::SECURITY
       echo set tpm2in=%tpm2in%
       echo set intlsgx=%intlsgx%
-      ) >%cd%/biosvars.bat
+      ) >%~dp0/biosvars.bat
       timeout -t 2
       exit
     )
@@ -1244,6 +1489,16 @@ if /I "%keyinput%" EQU "" (
   cls
   goto tabupdate
 )
+if /I "%keyinput%" EQU "104" (
+    set tab=0
+    goto tabupdate
+)
+if /I "%keyinput%" EQU "8" (
+    if /I "%tab%" EQU "0" (
+        set tab=1
+        goto tabupdate
+    )
+)
 
 if /I "%keyinput%" EQU "9009" (
   goto dependencyerror
@@ -1329,7 +1584,6 @@ if /I "%keyinput%" EQU "112" (
     )
 )
 
-echo %cItem%
 goto tabupdate
 
 
@@ -1337,7 +1591,6 @@ goto tabupdate
 
 
 :valuechange
-echo end _U logic
 
 if /I "%tab%" EQU "2" (
     if /I "%cItem%" EQU "item1" (
@@ -1945,6 +2198,118 @@ if /I "%tab%" EQU "8" (
         )
     )
 )
+if /I "%tab%" EQU "9" (
+    if /I "%cItem%" EQU "item1" (
+     echo.
+    )
+    if /I "%cItem%" EQU "item2" (
+         if /I "%keyinput%" EQU "43" (
+             if /I "%intspeedstep%" EQU "Disabled" (
+                set intspeedstep=Enabled
+             )
+         )
+         if /I "%keyinput%" EQU "45" (
+             if /I "%intspeedstep%" EQU "Enabled" (
+                set intspeedstep=Disabled
+             )
+         )
+    )
+    if /I "%cItem%" EQU "item3" (
+         if /I "%keyinput%" EQU "43" (
+             if /I "%cpucstate%" EQU "Disabled" (
+                set cpucstate=Enabled
+             )
+         )
+         if /I "%keyinput%" EQU "45" (
+             if /I "%cpucstate%" EQU "Enabled" (
+                set cpucstate=Disabled
+             )
+         )
+    )
+    if /I "%cItem%" EQU "item4" (
+         if /I "%keyinput%" EQU "43" (
+             if /I "%s3powman%" EQU "Disabled" (
+                set s3powman=Enabled
+             )
+         )
+         if /I "%keyinput%" EQU "45" (
+             if /I "%s3powman%" EQU "Enabled" (
+                set s3powman=Disabled
+             )
+         )
+    )
+    if /I "%cItem%" EQU "item5" (
+         if /I "%keyinput%" EQU "43" (
+             if /I "%s4powman%" EQU "Disabled" (
+                set s4powman=Enabled
+             )
+         )
+         if /I "%keyinput%" EQU "45" (
+             if /I "%s4powman%" EQU "Enabled" (
+                set s4powman=Disabled
+             )
+         )
+    )
+    if /I "%cItem%" EQU "item6" (
+        if /I "%keyinput%" EQU "43" (
+            if /I "%bootperfmode%" EQU "Disabled" (
+               set bootperfmode=Normal
+            )
+            if /I "%bootperfmode%" EQU "Normal" (
+               set bootperfmode=Performance
+            )
+        )
+        if /I "%keyinput%" EQU "45" (
+            if /I "%bootperfmode%" EQU "Performance" (
+               set bootperfmode=Normal
+            )
+            if /I "%bootperfmode%" EQU "Normal" (
+               set bootperfmode=Disabled
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item7" (
+        if /I "%keyinput%" EQU "43" (
+            if /I "%onbdevpowcon%" EQU "Disabled" (
+                set onbdevpowcon=Enabled
+            )
+        )
+        if /I "%keyinput%" EQU "45" (
+            if /I "%onbdevpowcon%" EQU "Enabled" (
+                 set onbdevpowcon=Disabled
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item8" (
+        if /I "%keyinput%" EQU "43" (
+            if /I "%pdelay%" EQU "Disabled" (
+                set pdelay=Enabled
+            )
+        )
+        if /I "%keyinput%" EQU "45" (
+            if /I "%pdelay%" EQU "Enabled" (
+                set pdelay=Disabled
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item9" (
+        if /I "%keyinput%" EQU "43" (
+            if /I "%aspo%" EQU "Disabled" (
+                set aspo=Enabled
+            )
+        )
+        if /I "%keyinput%" EQU "45" (
+            if /I "%aspo%" EQU "Enabled" (
+                set aspo=Disabled
+            )
+        )
+    )
+    if /I "%cItem%" EQU "item10" (
+        if /I "%keyinput%" EQU "43" (
+            echo %pwrbtnbehav%
+        )
+    )
+)
 
 
 goto tabupdate
@@ -1957,22 +2322,24 @@ exit
 
 :dependencyerror
 cls
+echo event: deperror, value: 9009, tag: bios, tcol: orange, prio: F, tdate: %datestamp%, tx: %timestamp% uid:%random%%random%%random%%random%;
+echo.
 echo event: deperror, value: 9009, tag: bios, tcol: orange, prio: F, tdate: %datestamp%, tx: %timestamp% uid:%random%%random%%random%%random%;>events.txt
 for /F "tokens=2 delims==." %%I in ('%SystemRoot%\System32\wbem\wmic.exe OS GET LocalDateTime /VALUE') do set "LocalTime=%%I"
 set "LocalTime=%LocalTime:~8,4%"
 set dxa=%errorlevel%
-echo y=msgbox("%time% dependency not found (Error %dxa%)                         cd: %cd%", 1+16, "Fatal Error") >%cd%\errormsg.vbs
-%cd%/errormsg.vbs
+echo y=msgbox("%time% dependency not found (Error %dxa%)                         cd: %~dp0", 1+16, "Fatal Error") >%~dp0\errormsg.vbs
+%~dp0/errormsg.vbs
 (
 echo %time% func: %errfunc%
-echo %time% cd: %cd%
+echo %time% cd: %~dp0
 echo %time% %cause%
 echo %time% dependency not found error [Error %dxa%]
-) >%cd%\errorfile%LocalTime%.log
+) >%~dp0\errorfile%LocalTime%.log
 echo error in line %errline%
 echo error trace:
 echo   %time% func: %errfunc%
-echo   %time% cd: %cd%
+echo   %time% cd: %~dp0
 echo   %time% %cause%
 echo   %time% dependency not found error (Error %dxa%)
 echo.
@@ -1985,7 +2352,7 @@ echo Consider updating or reinstalling
 echo this program to solve this issue.
 echo.
 echo An error log of the problem can be found
-echo here: %cd%\errorfile%LocalTime%.log
+echo here: %~dp0\errorfile%LocalTime%.log
 echo.
 echo.
 echo.
