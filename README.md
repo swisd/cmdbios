@@ -5,9 +5,10 @@ A BIOS written in Batchscript
 ![release](https://img.shields.io/badge/release-none-red)
 ![latest](https://img.shields.io/badge/latest-v3.31-blue)
 ![wincompat](https://img.shields.io/badge/windows-compatible-gr)
+<!--
 ![maccompat](https://img.shields.io/badge/mac-incompatible-red)
 ![lincompat](https://img.shields.io/badge/linux-incompatible-red)
-
+-->
 **CMDBIOS is based off of multiple different versions and differences of AMIBIOS, PhoenixBIOS, and AwardBIOS**
 
 > Note: CMDBIOS only represents a BIOS interface with limited capabilities.
